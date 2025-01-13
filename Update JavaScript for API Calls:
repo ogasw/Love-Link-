@@ -1,0 +1,45 @@
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    
+    // API call to backend
+    fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email, password: password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.token) {
+            alert("Login successful!");
+            localStorage.setItem('token', data.token);
+        } else {
+            alert("Login failed: " + data.error);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+document.getElementById("signupForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    let username = document.getElementById("username").value;
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    
+    // API call to backend
+    fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username, email: email, password: password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(error => console.error('Error:', error));
+});
